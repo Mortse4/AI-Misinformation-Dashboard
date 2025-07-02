@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Research Articles</title>
+</head>
+<body>
+    <h1>Research Articles</h1>
+    {% for article in articles %}
+        <div>
+            <h2><a href="{{ article['url'] }}">{{ article['title'] }}</a></h2>
+            <p>{{ article['description'] }}</p>
+        </div>
+    {% endfor %}
+</body>
+</html>

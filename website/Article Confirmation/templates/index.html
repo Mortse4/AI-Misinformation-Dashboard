@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Post Review</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            text-align: center;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+        }
+        .post {
+            background: white;
+            margin-bottom: 10px;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .post:last-child {
+            margin-bottom: 0;
+        }
+        button {
+            border: none;
+            outline: none;
+            padding: 10px 20px;
+            margin-top: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .confirm {
+            background-color: #28a745;
+            color: white;
+        }
+        .confirm:hover {
+            background-color: #218838;
+        }
+        .deny {
+            background-color: #dc3545;
+            color: white;
+        }
+        .deny:hover {
+            background-color: #c82333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Review Posts</h1>
+        {% for post in posts %}
+            <div class="post">
+                <p>{{ post.Content }}</p>
+                <form action="{{ url_for('flag', post_id=post.PostID) }}" method="post">
+                    <button type="submit" name="misinformation_status" value="confirm" class="confirm">Confirm Misinformation</button>
+                    <button type="submit" name="misinformation_status" value="deny" class="deny">Deny Misinformation</button>
+                </form>
+                <form action="{{ url_for('fetch_research') }}" method="post">
+                    <input type="hidden" name="post_content" value="{{ post.Content }}">
+                    <button type="submit" class="research">Fetch Research Articles</button>
+                </form>
+                
+            </div>
+        {% endfor %}
+    </div>
+</body>
+</html>

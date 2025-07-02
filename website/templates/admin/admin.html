@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %} 
+
+{% block title %}Admin{% endblock %}
+
+{% block body %}
+
+<h1 class="heading"> 
+	<row>
+		Add   <span>Topic</span> 
+	</row>
+</h1> 
+
+<section class="sample_data">
+	<div class="row">	
+		{{ wtf.quick_form(form) }}
+	</div>
+</section>
+
+{% if topics %}
+
+<h1 class="heading"> 
+	<row>
+	    <span>Current</span> Topics
+	</row>
+</h1> 
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Topic</th>
+            <th>Date</th>
+            <th>Interactions</th>>
+            <th>Image</th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for topic in topics %}
+            <tr>
+                <td>{{ topic.name }}</td>
+                <td>{{ topic.date }}</td>
+                <td>{{ topic.interactions }}</td>
+                <td>
+                    <div class="table-topic">
+                        <img src="{{ topic.image }}" alt="{{ topic.name }}" width="100">
+
+                    </div>
+                </td>
+                <td><td><a method="post" href="{{ url_for('edit_topic', id=topic.id) }}" class="btn">Edit</a></td>
+                <td>
+                    <form action="{{ url_for('deleteTopic', id=topic.id) }}" method="post">
+                        {{ form.csrf_token }}
+                        <button type="submit" class="btn">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+    <H1>No topics found.</H1>
+{% endif %}
+
+{% endblock %}

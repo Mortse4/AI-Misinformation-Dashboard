@@ -1,0 +1,32 @@
+Features
+- create sample data base
+- add explainations on what the icons mean 
+	-> hover box [completed]
+	-> index page
+	-> view-topics page
+-backend for icons, link to database?
+- graph explainations
+	-> day with most interactions
+- map explaination
+	-> place most mentioned for topic
+
+
+
+Organisation
+-make icons.html for all icons then link using flask [not needed]
+
+
+
+Errors
+> if less thaan 2 topics can't view topic from this week
+-> throws error note
+
+
+
+design things to do
+- Background
+-make the trending boxes + icons same size when you make the page smaller
+-when clicking on trending box, should be able to click on link when text is clicked (div?)
+- make sure that image placeholders fully display the map/graphs
+
+-create a map

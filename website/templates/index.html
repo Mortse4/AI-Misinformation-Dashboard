@@ -1,0 +1,256 @@
+{% extends "base.html" %}
+
+{% block title %}Home {% endblock %}
+
+{% block body %}
+
+
+<!-- ----------- WORD CLOUD STARTS HERE -------------  -->
+<div class="landing-container">
+
+    <section class="home">
+        <div class="content">
+            <div class="circle-box">
+                <div class="circle" style="--i:0;"></div>
+                <div class="circle" style="--i:1;"></div>
+                <div class="circle" style="--i:2;"></div>
+                <div class="circle" style="--i:3;"></div>
+                <div class="circle" style="--i:4;"></div>  
+                <div class="circle" style="--i:5;"></div>
+            
+          
+            <h1>AI Misinformation</h1>
+           
+            <span>Misinformation spread about AI</span>
+                <br><br>
+            <a href="#report" class="btn">Report</a>
+            </div>
+
+             
+
+        </div>
+    
+  
+    </section>
+    
+    
+    </section>
+    
+
+</div>
+
+
+
+
+
+
+
+
+<div class="top-icons-container">
+
+    <section class="box-container">
+        
+            <a class="box" href="#int-footer">
+           
+                <i class="bi bi-shield-fill-plus"></i>
+                <div class="info">
+                    <h3>Post Gathered</h3>
+                    <span>{{post_count }}</span>
+                    <p>This displays the TOTAL number of post gathered about a graph from Mastadon of all time.</p>
+                </div>
+            </a>
+        
+    
+        
+        <a class="box" href="#int-footer">
+            <i class="bi bi-shield-fill-check"></i>
+            <div class="info">
+                <h3>Post Verified</h3>
+                <span>{{ verified_count }}</span>
+                <p>
+                This displays the TOTAL number of post we manually verified from Mastadon.
+            </p>
+            </div>
+            
+        </a>
+        
+
+        <a class="box" href="#int-footer">
+            <i class="bi bi-shield-fill-x"></i>
+            <div class="info">
+                <h3>Misinformation Verified</h3>
+                <span>{{ misinfo_count }}</span>
+                <p>This displays the TOTAL number of post we verified that contains misinformation about Artificial Intellegence from Mastadon.</p>
+            </div>
+            
+        </a>
+
+
+    </section>
+</div>
+
+
+</div>
+
+
+
+
+<!---------INFO starts HERE-------->
+<div class="about-the-project">
+    <div class="column-project">
+        <img src="{{ url_for('static', filename='images/artificial.jpg') }}" alt="replaced">
+        
+    </div>
+    <div class="column-project">
+        <div class="project-section-header">
+            <h4>ABOUT THE PROJECT</h4>
+        </div>
+        <div class="project-info">
+            <ul>
+                <li class="project-info-here"> <p>Misinformation is defined as false or inaccurate information that is shared with or without attempting to mislead or be biassed. False information spreading has grown to be a significant social issue that transcends national boundaries and has an impact on many aspects of public life in an era where information moves rapidly through interconnected digital networks. Misinformation has quietly made its way onto social media and had a significant impact on many aspects, such as public health, social stability, and political debate.</p></li>
+                <li class="project-info-here"> <p>Our project seeks to make a substantial contribution to the ongoing fight against disinformation by creating this advanced dashboard, it will enable users to identify, follow, and comprehend the dynamics of misinformation on social media.</p></li>
+            </ul>
+            <p class="project-info-here">Social media sites like Reddit and Twitter, where information is shared at an unprecedented speed, has coincided with an increase in the amount and impact of misinformation due to their availability and easy access. The volume and pace of information flow render conventional manual monitoring and analysis approaches impracticable. Therefore, the foundation of our effort is the understanding that human intervention alone is not sufficient and that human expertise and some sort of advanced technical support must coexist in order to stand against this issue.</p>
+
+            <div class="card">
+                <a href="#report">
+                    <h4 class="click-On-Report-Info"> REPORT INFORMATION</h4>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<!-- ---------------- WEEKLY starts HERE ----------------- -->
+<h1 class="heading" id="info"> 
+    <row>
+        <span>
+            BI-WEEKLY <span>SNAPSHOT</span>
+        </span>
+    </row>
+</h1>
+
+<section class="info" id="info">
+
+    <div class="row">
+
+        <div class="content">
+            <h3>Latest Updates</h3>
+            <p>
+                The last post gathered from Mastadon was in {{post_time.TimeStamps}}
+            </p>
+            <p>As we manually check verify the misinformation posted, the amount of post gathered may be higher than the post verified.</p>
+            <p>Please click on the boxes or hover your mouse to find out more!</p>
+            <p></p>
+            <h3>Bi-Weekly Stats</h3>
+            <p>
+                <div class="icons-container">
+                    <section class="box-container">
+                        <div class="tooltip">
+                            <div class="box">
+                            <span class="tooltiptext" id="top">This displays the number of post gathered about a graph from Mastadon. </span>
+                                <i class="bi bi-shield-fill-plus"></i>
+                                <div class="info">
+                                    <h3>Post Gathered</h3>
+                                    <span>{{post_count}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    
+                        <div class="tooltip">
+                        <div class="box">
+                            <span class="tooltiptext" id="top">This displays the number of post we manually verified this week.</span>
+                            <i class="bi bi-shield-fill-check"></i>
+                            <div class="info">
+                                <h3>Post Verified</h3>
+                                <span>{{verified_count}}</span>
+                            </div>
+                        </div>
+                        </div>
+
+
+                        <div class="tooltip">
+                            <div class="box">
+                                <span class="tooltiptext" id="top">This displays the number of post we verified that contains misinformation.</span>
+                                <i class="bi bi-shield-fill-x"></i>
+                                <div class="info">
+                                    <h3>Misinformation Verified</h3>
+                                    <span>{{misinfo_count}}</span>
+                                </div>
+                            </div>
+                            </div>
+          
+                    </section>
+                </div>
+                
+            </p>
+            <p>
+                
+            </p>
+        </div>
+
+        <div class="map-container">
+        </div>
+
+    </div>
+
+</section>
+
+
+
+
+<!-- ---------------- MISINFORMATION REPORT starts HERE ----------------- -->
+
+<div class="misinformation-report" id="report">
+    <div class="column-report">
+        <div id="report" class="report">
+            <form id="reportForm" action="/" method="POST">
+                <h5 class="report-info">REPORT INFORMATION</h5>
+                <div class="form-group">
+                    <label for="misinfo-link">Misinformation Link:</label>
+                    <textarea id="misinfo-link" name="misinfo-link" rows="2" placeholder="100 words max..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="source-link">Source Link:</label>
+                    <textarea id="source-link" name="source-link" placeholder="100 words max..." rows="2"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="Details">Details:</label>
+                    <textarea id="Details" name="Details" placeholder="200 words max..." rows="4"></textarea>
+                </div>
+                <input type="submit" value="Report Information" onclick="validateForm()">
+            </form>
+        </div>
+    </div>
+    <div class="column-report">
+        <h5>What is Misinformation?</h5>
+        <p>&emsp;</p>
+            <p>Misinformation refers to false or inaccurate information that is spread unintentionally. It can be misleading or deceptive but is not necessarily intended to cause harm. Misinformation can arise from various sources, including misunderstanding, misinterpretation, or errors in communication.</p>
+            <p>A potential new topic for a misinformation dashboard could be "COVID-19 Vaccine Myths and Misinformation." This topic would involve tracking and debunking false claims and misconceptions surrounding COVID-19 vaccines, addressing concerns about safety, efficacy, and distribution, and providing accurate information to combat misinformation and promote vaccination efforts. </p>
+            <p>&emsp;</p>
+            <p>&emsp;</p>
+        <h5>Verify Your Source</h5>
+        <p>&emsp;</p>
+            <p>Credible sources are reliable outlets known for providing accurate, well-researched, and trustworthy information. Authored by experts or reputable organizations, they prioritize objectivity, factual accuracy, and lack of bias. Examples include peer-reviewed academic journals, respected news organizations, and government publications. Accessing information from such sources is crucial for making informed decisions.</p>
+            <p>we accecpt data from sources like social media such as Twitter and Facebook, news websites such as CNN and The New York Times, fact-checking organizations like Snopes and PolitiFact, government agencies such as the CDC and WHO, academic research papers, blogs, online forums, user-generated content platforms, reputable news outlets, and wire services.</p>
+
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+<!-- Scripts-->
+    
+    
+
+{% endblock %}

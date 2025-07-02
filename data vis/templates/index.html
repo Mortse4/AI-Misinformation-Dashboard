@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Misinformation Analysis Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        body {
+            background-color: #2c3e50;
+            color: white;
+        }
+        .nav-tabs .nav-link {
+            color: #ecf0f1;
+            background-color: #34495e;
+            border-color: #34495e;
+        }
+        .nav-tabs .nav-link.active {
+            color: white;
+            background-color: #1abc9c;
+            border-color: #1abc9c;
+        }
+        .card {
+            background-color: #34495e;
+            border-color: #34495e;
+        }
+        .card-body {
+            background-color: #34495e;
+        }
+        .tab-content {
+            background-color: #34495e;
+            border-color: #34495e;
+            padding: 20px;
+            border-radius: 0 0 5px 5px;
+        }
+        canvas {
+            background-color: transparent;
+            border-radius: 5px;
+        }
+        #map {
+            height: 400px;
+            border-radius: 5px;
+        }
+        #keywordsList {
+            list-style: none;
+            padding-left: 0;
+        }
+        #keywordsList li {
+            padding: 5px;
+            border-bottom: 1px solid #1abc9c;
+        }
+    </style>
+</head>
+<body>
+    <div class="container my-5">
+        <h1 class="text-center">Misinformation Analysis Dashboard</h1>
+
+        <!-- Tab Navigation -->
+        <ul class="nav nav-tabs justify-content-center">
+            <li class="nav-item">
+                <a class="nav-link active" href="#sentiment" data-bs-toggle="tab">
+                    <i class="fas fa-chart-pie"></i> Sentiment Distribution
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#frequency" data-bs-toggle="tab">
+                    <i class="fas fa-chart-line"></i> Frequency Over Time
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#map" data-bs-toggle="tab">
+                    <i class="fas fa-map-marked-alt"></i> Map of Locations
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#keywords" data-bs-toggle="tab">
+                    <i class="fas fa-key"></i> Top Keywords
+                </a>
+            </li>
+        </ul>
+
+        <!-- Tab Content -->
+        <div class="tab-content mt-4">
+            <div class="tab-pane fade show active" id="sentiment">
+                <div class="card">
+                    <div class="card-body">
+                        <canvas id="sentimentChart" class="w-75 mx-auto"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="frequency">
+                <div class="card">
+                    <div class="card-body">
+                        <canvas id="frequencyChart" class="w-100"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="map">
+                <div class="card">
+                    <div class="card-body">
+                        <div id="map" class="w-100"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="keywords">
+                <div class="card">
+                    <div class="card-body">
+                        <ul id="keywordsList"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sentiment Chart
+        const sentimentCtx = document.getElementById('sentimentChart').getContext('2d');
+        const sentimentChart = new Chart(sentimentCtx, {
+            type: 'pie',
+            data: {
+                labels: {{ sentiments_json | safe }},
+                datasets: [{
+                    data: {{ sentiment_values_json | safe }},
+                    backgroundColor: [
+                        'rgba(231, 76, 60, 0.6)',
+                        'rgba(46, 204, 113, 0.6)',
+                        'rgba(41, 128, 185, 0.6)'   
+                    ],
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: 'white', // White text color for labels
+                        }
+                    }
+                }
+            }
+        });
+
+        // Frequency Chart
+        const frequencyCtx = document.getElementById('frequencyChart').getContext('2d');
+        const frequencyChart = new Chart(frequencyCtx, {
+            type: 'line',
+            data: {
+                labels: {{ time_labels_json | safe }},
+                datasets: [{
+                    label: 'Posts Count',
+                    data: {{ time_values_json | safe }},
+                    borderColor: 'rgb(39, 174, 96)',
+                    tension: 0.1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: 'white'
+                        }
+                    }
+                }
+            }
+        });
+
+        // Map setup
+        var map = L.map('map').setView([20, 0], 2);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '© OpenStreetMap'
+        }).addTo(map);
+        var locations = {{ locations_json | safe }};
+        locations.forEach(function(loc) {
+            if (loc.coordinates) {
+                L.marker([loc.coordinates[0], loc.coordinates[1]]).addTo(map)
+                    .bindPopup(loc.name);
+            }
+        });
+
+        // Keywords List
+        const keywordsList = document.getElementById('keywordsList');
+        const keywords = {{ keywords_json | safe }};
+        for (const [word, count] of Object.entries(keywords)) {
+            const li = document.createElement('li');
+            li.textContent = `${word}: ${count}`;
+            keywordsList.appendChild(li);
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
